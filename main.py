@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import data_utils as du
 from keras.src.callbacks import TensorBoard
 from stl10_input import read_all_images
+import os
 
 TRAIN_DATA_PATH = './data/stl10_binary/unlabeled_X.bin'
 VALIDATION_DATA_PATH = './data/stl10_binary/train_X.bin'
@@ -39,6 +40,10 @@ if __name__ == "__main__":
     decoded = keras.layers.Conv2D(3, (3, 3), activation='relu', padding='same')(x)
 
     autoencoder = keras.Model(input_img, decoded)
+
+    if os.path.exists('./autoencoder.h5'):
+        autoencoder.load_weights('autoencoder.h5')
+
     autoencoder.compile(optimizer='adam', loss='mean_absolute_error')
 
     autoencoder.fit(train_ds_x, train_ds_y,
@@ -57,14 +62,14 @@ if __name__ == "__main__":
     for i in range(1, n + 1):
         # Display original
         ax = plt.subplot(2, n, i)
-        plt.imshow(validation_ds_x[i].reshape(96, 96))
+        plt.imshow(validation_ds_x[i - 1].reshape(96, 96))
         plt.gray()
         ax.get_xaxis().set_visible(False)
         ax.get_yaxis().set_visible(False)
 
         # Display reconstruction
         ax = plt.subplot(2, n, i + n)
-        plt.imshow(decoded_imgs[i].reshape(96, 96))
+        plt.imshow(decoded_imgs[i - 1].reshape(96, 96, 3))
         ax.get_xaxis().set_visible(False)
         ax.get_yaxis().set_visible(False)
     plt.show()
