@@ -48,6 +48,8 @@ if __name__ == "__main__":
                     validation_data=(validation_ds_x, validation_ds_y),
                     callbacks=[TensorBoard(log_dir='/tmp/tb')])
 
+    autoencoder.save('autoencoder.h5')
+
     decoded_imgs = autoencoder.predict(validation_ds_x[:10])
 
     n = 10
