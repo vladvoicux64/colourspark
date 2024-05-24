@@ -7,7 +7,7 @@ from stl10_input import read_all_images
 TRAIN_DATA_PATH = './data/stl10_binary/unlabeled_X.bin'
 VALIDATION_DATA_PATH = './data/stl10_binary/train_X.bin'
 IMG_SIZE = (96, 96)
-BATCH_SIZE = 32
+BATCH_SIZE = 128
 if __name__ == "__main__":
     # read images from disk
     train_images = read_all_images(TRAIN_DATA_PATH)
@@ -35,7 +35,7 @@ if __name__ == "__main__":
     x = keras.layers.UpSampling2D((2, 2))(x)
     x = keras.layers.Conv2D(32, (3, 3), activation='relu', padding='same')(x)
     x = keras.layers.UpSampling2D((2, 2))(x)
-    decoded = keras.layers.Conv2D(3, (3, 3), activation='sigmoid', padding='same')(x)
+    decoded = keras.layers.Conv2D(3, (3, 3), activation='softmax', padding='same')(x)
 
     autoencoder = keras.Model(input_img, decoded)
     autoencoder.compile(optimizer='adam', loss='binary_crossentropy')
