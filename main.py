@@ -36,10 +36,10 @@ if __name__ == "__main__":
     x = keras.layers.UpSampling2D((2, 2))(x)
     x = keras.layers.Conv2D(32, (3, 3), activation='relu', padding='same')(x)
     x = keras.layers.UpSampling2D((2, 2))(x)
-    decoded = keras.layers.Conv2D(3, (3, 3), activation='softmax', padding='same')(x)
+    decoded = keras.layers.Conv2D(3, (3, 3), activation='relu', padding='same')(x)
 
     autoencoder = keras.Model(input_img, decoded)
-    autoencoder.compile(optimizer='adam', loss='binary_crossentropy')
+    autoencoder.compile(optimizer='adam', loss='mean_absolute_error')
 
     autoencoder.fit(train_ds_x, train_ds_y,
                     epochs=100,
