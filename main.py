@@ -8,6 +8,7 @@ TRAIN_DATA_PATH = './data/stl10_binary/unlabeled_X.bin'
 VALIDATION_DATA_PATH = './data/stl10_binary/train_X.bin'
 IMG_SIZE = (96, 96)
 BATCH_SIZE = 128
+
 if __name__ == "__main__":
     # read images from disk
     train_images = read_all_images(TRAIN_DATA_PATH)
